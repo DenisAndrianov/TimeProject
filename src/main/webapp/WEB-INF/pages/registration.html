@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Регистрация</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link  />
+</head>
+<body>
+<div>
+    <h2>Registration</h2>
+
+    <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
+        <fieldset>
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Incorrect login</p>
+            Login:
+            <input type="text" th:field="*{login}" />
+            <p th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Incorrect login</p>
+            <p></p>
+            Password:
+            <input type="text" th:field="*{pass}" />
+            <p th:if="${#fields.hasErrors('pass')}" th:errors="*{pass}">Incorrect pass</p>
+            <p></p>
+            First name:
+            <input type="text" th:field="*{firstName}" />
+            <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Incorrect firstName</p>
+            <p></p>
+            Last name:
+            <input type="text" th:field="*{lastName}" />
+            <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Incorrect lastName</p>
+
+            <p><input type="submit"></p>
+            <hr>
+            <a href = "/login">Вход</a>
+
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
