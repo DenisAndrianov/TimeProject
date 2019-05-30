@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import services.repositories.UserRepo;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
 import java.util.Optional;
 
 
@@ -64,5 +66,23 @@ public class UserService {
     public boolean existUserByToken   (String token)  {
         String login = verifier.verify(token).getSubject();
         return userRepo.existsByLogin(login);
+    }
+
+    public String addVendor (User usid, HttpServletRequest request)  {
+        try {
+            User user = getUserByToken(request.getCookies()[0].getValue());
+            user.addVendor(userRepo.readById(usid.getId()));
+            userRepo.save(user);
+            return "Successfully";
+        }   catch (Exception e) {
+            return "Error";
+        }
+    }
+
+    public HashSet<User> getVendors (HttpServletRequest request)  {
+        HashSet<User> vendors = new HashSet<>();
+        System.out.println(getUserByToken(request.getCookies()[0].getValue()).getVendors());
+        vendors.addAll(getUserByToken(request.getCookies()[0].getValue()).getVendors());
+        return vendors;
     }
 }

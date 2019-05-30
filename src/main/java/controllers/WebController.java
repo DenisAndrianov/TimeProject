@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashSet;
 
 @Controller
 @RequestMapping("/")
@@ -62,11 +63,18 @@ public class WebController {
 
     @GetMapping(path = "/login")
     public String getLogin (Model model, HttpServletRequest request)  {
-        if(userService.existUserByToken(request.getCookies()[0].getValue()))    {
-            return "redirect:/home";
+        try {
+            if(userService.existUserByToken(request.getCookies()[0].getValue()))    {
+                return "redirect:/home";
+            }
+            model.addAttribute("user", new User());
+            return "login";
+        }   catch (Exception e) {
+            model.addAttribute("user", new User());
+            return "login";
         }
-        model.addAttribute("user", new User());
-        return "login";
+
+
     }
 
     @PostMapping(path = "/login")
@@ -101,6 +109,24 @@ public class WebController {
         return "home";
     }
 
+    @GetMapping (path = "vendors")
+    public String getVendors (Model model, HttpServletRequest request)   {
+        model.addAttribute("vendorsList", userService.getVendors(request));
+        System.out.println(userService.getVendors(request));
+        model.addAttribute("user", new User());
+        return "vendors";
+    }
+
+    @PostMapping (path = "vendors")
+    public String setVendors (final User user, final BindingResult result, HttpServletRequest request) {
+        if (userService.addVendor(user, request).equals("Error"))   {
+            result.addError(new ObjectError("error", "Error"));
+            return "vendors";
+        }
+        result.addError(new ObjectError("Successfully", "Successfully"));
+        return "vendors";
+    }
+
     @GetMapping(path = "/offerreg")
     public String getOfferReg (Model model)  {
         model.addAttribute("offerForm", new OfferForm());
@@ -127,7 +153,14 @@ public class WebController {
         return "/offerslist";
     }
 
-    
+    @GetMapping (path = "/logout")
+    public String logout (HttpServletRequest request, HttpServletResponse response)   {
+        Cookie cookie = request.getCookies()[0];
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
+    }
+
 
 
 }

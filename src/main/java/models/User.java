@@ -5,6 +5,7 @@ import org.hibernate.annotations.Check;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -61,9 +62,6 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", vendorFlag=" + vendorFlag +
-                ", vendors=" + vendors +
-                ", offers=" + offers +
-                ", signs=" + signs +
                 '}';
     }
 
@@ -145,6 +143,14 @@ public class User {
 
     public void setForm(String form){
         this.form = form;
+    }
+
+    public void addVendor(User user) {
+        this.vendors.add(user);
+    }
+
+    public void removeVendor(User user) {
+        this.vendors.remove(user);
     }
 
     public User(String login, String pass, String firstName, String lastName, Boolean vendorFlag, Set<User> vendors, Set<Offer> offers, Set<Offer> signs) {
