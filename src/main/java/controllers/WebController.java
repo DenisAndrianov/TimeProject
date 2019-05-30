@@ -1,6 +1,8 @@
 package controllers;
 
 
+import models.Offer;
+import models.OfferForm;
 import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,22 +36,6 @@ public class WebController {
     UserService userService;
 
 
-    public void process(
-            final HttpServletRequest request, final HttpServletResponse response,
-            final ServletContext servletContext, final ITemplateEngine templateEngine)
-            throws Exception {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-        Calendar cal = Calendar.getInstance();
-
-        WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        ctx.setVariable("today", dateFormat.format(cal.getTime()));
-
-
-        templateEngine.process("home", ctx, response.getWriter());
-    }
-
-
-
     @GetMapping(path = "/")
     public String index ()  {
         return "index";
@@ -66,7 +52,7 @@ public class WebController {
         if (result.hasErrors()){
             return "registration";
         }
-        if (userService.registration(user).equals("Error")) {
+        if (userService.save(user).equals("Error")) {
             result.addError(new ObjectError("login","логин уже существует"));
         }   else    {
             result.addError(new ObjectError("login","Successfully"));
@@ -75,7 +61,10 @@ public class WebController {
     }
 
     @GetMapping(path = "/login")
-    public String getLogin (Model model)  {
+    public String getLogin (Model model, HttpServletRequest request)  {
+        if(userService.existUserByToken(request.getCookies()[0].getValue()))    {
+            return "redirect:/home";
+        }
         model.addAttribute("user", new User());
         return "login";
     }
@@ -98,4 +87,47 @@ public class WebController {
         model.addAttribute("user", userService.getUserByToken(cookie.getValue()));
         return "home";
     }
+
+    @PostMapping (path = "home")
+    public String postHome (Model model, @Valid User user, final BindingResult result, HttpServletRequest request)    {
+        if (result.hasErrors()){
+            return "home";
+        }
+        if (userService.save(user).equals("Error")) {
+            result.addError(new ObjectError("login","Error"));
+        }   else    {
+            result.addError(new ObjectError("login","Successfully"));
+        }
+        return "home";
+    }
+
+    @GetMapping(path = "/offerreg")
+    public String getOfferReg (Model model)  {
+        model.addAttribute("offerForm", new OfferForm());
+        return "offerreg";
+    }
+
+    @PostMapping(path = "/offerreg")
+    public String postOfferReg (Model model, @Valid final OfferForm offerForm, final BindingResult result, HttpServletRequest request)  {
+        if (result.hasErrors()){
+            return "offerreg";
+        }
+        offerForm.setOwner(userService.getUserByToken(request.getCookies()[0].getValue()));
+        if (offerService.registration(offerForm).equals("Error")) {
+            result.addError(new ObjectError("login","ошибка"));
+        }   else    {
+            result.addError(new ObjectError("login","Successfully"));
+        }
+        return "offerreg";
+    }
+
+    @GetMapping(path = "/offerslist")
+    public String getOffersList (Model model, HttpServletRequest request)   {
+        model.addAttribute("map",offerService.getAllOffersByUser(userService.getUserByToken(request.getCookies()[0].getValue())));
+        return "/offerslist";
+    }
+
+    
+
+
 }

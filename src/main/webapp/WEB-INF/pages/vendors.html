@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="#" th:action="@{/home}" th:object="${user}" method="post">
+    <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Error</p>
+    Отслеживать предложения пользователя по id
+    <input number="text" th:field="*{vendors}"  />
+</form>
+</body>
+</html>

@@ -1,6 +1,9 @@
 package models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 @Table(name = "offers")
@@ -9,17 +12,23 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @ManyToOne
     private User owner;
 
     @ManyToOne
     private User sign;
 
+    @NotBlank
     private String note;
 
-    private Long timeStart;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeStart;
 
-    private Long timeEnd;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timeEnd;
 
     @Override
     public String toString() {
@@ -36,7 +45,7 @@ public class Offer {
     public Offer() {
     }
 
-    public Offer(User owner, User sign, String note, Long timeStart, Long timeEnd) {
+    public Offer(User owner, String note, Date timeStart, Date timeEnd) {
         this.owner = owner;
         this.sign = sign;
         this.note = note;
@@ -76,19 +85,19 @@ public class Offer {
         this.note = note;
     }
 
-    public Long getTimeStart() {
+    public Date getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(Long timeStart) {
+    public void setTimeStart(Date timeStart) {
         this.timeStart = timeStart;
     }
 
-    public Long getTimeEnd() {
+    public Date getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(Long timeEnd) {
+    public void setTimeEnd(Date timeEnd) {
         this.timeEnd = timeEnd;
     }
 }

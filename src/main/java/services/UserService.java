@@ -30,7 +30,7 @@ public class UserService {
         }
     }
 
-    public String registration (User user)    {
+    public String save (User user)    {
         try {
             user.setLogin(user.getLogin().toLowerCase());
             if (user.getLogin().length()>6 && user.getPass().length()>6 && user.getFirstName().length()>0 && user.getLastName().length() > 0 && !userRepo.existsByLogin(user.getLogin()))  {
@@ -59,5 +59,10 @@ public class UserService {
     public User getUserByToken(String token)    {
         String login = verifier.verify(token).getSubject();
         return userRepo.readByLogin(login);
+    }
+
+    public boolean existUserByToken   (String token)  {
+        String login = verifier.verify(token).getSubject();
+        return userRepo.existsByLogin(login);
     }
 }

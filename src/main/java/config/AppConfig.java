@@ -65,7 +65,8 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/WEB-INF/pages/static/**").addResourceLocations("/WEB-INF/pages/static/");
+        registry.addResourceHandler("/*.js/**").addResourceLocations("/WEB-INF/pages/static/");
+        registry.addResourceHandler("/*.css/**").addResourceLocations("/WEB-INF/pages/static/");
     }
 
     @Bean

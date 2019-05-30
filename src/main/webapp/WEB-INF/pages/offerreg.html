@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+<body>
+<div>
+
+
+    <form action="#" th:action="@{/offerreg}" th:object="${offerForm}" method="post">
+        <fieldset>
+            <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Error</p>
+
+
+            Time start:
+            <input type="text" id="start" th:field="*{timeStart}"  />
+
+
+            <script th:inline="javascript">
+
+                $(function() {
+                    $('#start').daterangepicker({
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        timePicker: true,
+                        timePicker24Hour: true,
+                        timePickerIncrement: 5,
+                        startDate: moment().startOf('hour'),
+                        locale: {
+                            format: 'DD.MM.YYYY hh:mm'
+                        }
+                    });
+                });
+            </script>
+
+            <p th:if="${#fields.hasErrors('timeStart')}" th:errors="*{timeStart}">timestart</p>
+            <p></p>
+            Time end:
+            <input type="text" th:field="*{timeEnd}" id="end" />
+
+            <script th:inline="javascript">
+
+                $(function() {
+                    $('#end').daterangepicker({
+                        singleDatePicker: true,
+                        showDropdowns: true,
+                        timePicker: true,
+                        timePicker24Hour: true,
+                        timePickerIncrement: 5,
+                        startDate: moment().startOf('hour'),
+                        locale: {
+                            format: 'DD.MM.YYYY hh:mm'
+                        }
+                    });
+                });
+            </script>
+
+            <p th:if="${#fields.hasErrors('timeEnd')}" th:errors="*{timeEnd}">timeend</p>
+            <p></p>
+            Note:
+            <textarea rows="10" cols="45" type="text" size="60" th:field="*{note}" />
+            <p th:if="${#fields.hasErrors('note')}" th:errors="*{note}">Incorrect login</p>
+
+
+            <p><input type="submit"></p>
+            <hr>
+            <a href = "/home">home</a>
+
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
