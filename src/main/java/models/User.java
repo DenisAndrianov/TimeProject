@@ -38,16 +38,15 @@ public class User {
 
     private Boolean vendorFlag;
 
-    @OneToMany
+    @ManyToMany
     Set<User> vendors;
 
     @OneToMany
     Set<Offer> offers;
 
-    @OneToMany
+    @ManyToMany
     Set<Offer> signs;
 
-    String form;
 
     public User(String login, String pass, String firstName, String lastName, boolean vendorFlag) {
 
@@ -137,20 +136,16 @@ public class User {
         this.signs = signs;
     }
 
-    public String getForm(){
-        return form;
-    }
-
-    public void setForm(String form){
-        this.form = form;
-    }
-
     public void addVendor(User user) {
         this.vendors.add(user);
     }
 
     public void removeVendor(User user) {
         this.vendors.remove(user);
+    }
+
+    public void addOffer (Offer offer)  {
+        this.offers.add(offer);
     }
 
     public User(String login, String pass, String firstName, String lastName, Boolean vendorFlag, Set<User> vendors, Set<Offer> offers, Set<Offer> signs) {

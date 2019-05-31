@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>TimeService</title>
-    <link rel="stylesheet" href="/bootstrap.min.css">
-    <link rel="stylesheet" href="/font-awesome.min.css">
-    <link rel="stylesheet" href="/owl.carousel.css">
-    <link rel="stylesheet" href="/owl.theme.default.min.css">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="font-awesome.min.css">
+    <link rel="stylesheet" href="owl.carousel.css">
+    <link rel="stylesheet" href="owl.theme.default.min.css">
 </head>
 <body>
 
@@ -31,7 +31,8 @@
 <br>
 <br>
 
-<table th:object="${set}" width="90%" border="1" cellpadding="2" align="center" >
+
+<table th:object="${set}" width="90%" border="1" cellpadding="2" align="center">
     <tr>
         <td Note>Note</td>
         <td Name>Name</td>
@@ -44,7 +45,7 @@
         <td th:text="${offer.getSign() != null} ? ${offer.getSign().getFirstName() +' '+offer.getSign().getLastName()} : ' '"></td>
         <td th:text="${#dates.format(offer.getTimeStart(), 'dd MMM yyyy | HH:mm')}"></td>
         <td th:text="${#dates.format(offer.getTimeEnd(), 'dd MMM yyyy | HH:mm')}"></td>
-        <td><a th:href="@{'/sign/' + ${offer.id}}">Подписаться</a></td>
+        <td><a th:href="@{'/remove/' + ${offer.id}}">Удалить</a></td>
     </tr>
 </table>
 </body>

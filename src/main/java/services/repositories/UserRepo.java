@@ -13,4 +13,5 @@ public interface UserRepo extends CrudRepository<User, Integer> {
     User findByLoginAndPass(String login, String pass);
 
     User readById(Integer id);
+
 }

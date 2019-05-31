@@ -2,14 +2,40 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>TimeService</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="font-awesome.min.css">
+    <link rel="stylesheet" href="owl.carousel.css">
+    <link rel="stylesheet" href="owl.theme.default.min.css">
 </head>
 <body>
-<div>
+
+<div class="container">
+    <div class="collapse navbar-collapse" >
+        <ul class="nav navbar-nav navbar-nav-first">
+            <tr>
+                <li><a href = "/offerreg" class="smoothScroll">Зарегистрировать услугу</a></li>
+                <li><a href = "/myofferslist" class="smoothScroll">Мои предложения</a></li>
+                <li><a href = "/offerslist" class="smoothScroll">Предложения пользователей</a></li>
+                <li><a href = "/vendors" class="smoothScroll">Подписки</a></li>
+                <li><a href = "/home" class="smoothScroll">Профиль</a></li>
+                <li><a href = "/logout" class="smoothScroll">Выход</a></li>
+            </tr>
+        </ul>
+    </div>
+</div>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<div align="center">
 
 
     <form action="#" th:action="@{/offerreg}" th:object="${offerForm}" method="post">
@@ -68,8 +94,8 @@
 
 
             <p><input type="submit"></p>
-            <hr>
-            <a href = "/home">home</a>
+
+
 
         </fieldset>
     </form>

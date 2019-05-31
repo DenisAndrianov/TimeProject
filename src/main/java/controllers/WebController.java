@@ -112,19 +112,20 @@ public class WebController {
     @GetMapping (path = "vendors")
     public String getVendors (Model model, HttpServletRequest request)   {
         model.addAttribute("vendorsList", userService.getVendors(request));
-        System.out.println(userService.getVendors(request));
         model.addAttribute("user", new User());
         return "vendors";
     }
 
     @PostMapping (path = "vendors")
-    public String setVendors (final User user, final BindingResult result, HttpServletRequest request) {
+    public String setVendors (Model model, final User user, final BindingResult result, HttpServletRequest request) {
         if (userService.addVendor(user, request).equals("Error"))   {
             result.addError(new ObjectError("error", "Error"));
             return "vendors";
         }
         result.addError(new ObjectError("Successfully", "Successfully"));
-        return "vendors";
+        model.addAttribute("vendorsList", userService.getVendors(request));
+        model.addAttribute("user", new User());
+        return "/vendors";
     }
 
     @GetMapping(path = "/offerreg")
@@ -139,7 +140,7 @@ public class WebController {
             return "offerreg";
         }
         offerForm.setOwner(userService.getUserByToken(request.getCookies()[0].getValue()));
-        if (offerService.registration(offerForm).equals("Error")) {
+        if (offerService.registration(offerForm, userService.getUserByToken(request.getCookies()[0].getValue())).equals("Error")) {
             result.addError(new ObjectError("login","ошибка"));
         }   else    {
             result.addError(new ObjectError("login","Successfully"));
@@ -147,10 +148,10 @@ public class WebController {
         return "offerreg";
     }
 
-    @GetMapping(path = "/offerslist")
+    @GetMapping(path = "/myofferslist")
     public String getOffersList (Model model, HttpServletRequest request)   {
-        model.addAttribute("map",offerService.getAllOffersByUser(userService.getUserByToken(request.getCookies()[0].getValue())));
-        return "/offerslist";
+        model.addAttribute("set",offerService.getAllOffersForUser(request));
+        return "/myofferslist";
     }
 
     @GetMapping (path = "/logout")
@@ -159,6 +160,30 @@ public class WebController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
         return "redirect:/";
+    }
+
+    @GetMapping (path = "/offerslist")
+    public String myOffers (Model model, HttpServletRequest request) {
+        model.addAttribute("set",offerService.getAllOffersByUser(request));
+        return "/offerslist";
+    }
+
+    @GetMapping (path = "/sign/{id}")
+    public String signOffer (@PathVariable("id") Integer id, HttpServletRequest request)   {
+        offerService.signOffer(id, request);
+        return "redirect:/offerslist";
+    }
+
+    @GetMapping (path = "/remove/{id}")
+    public String removeOffer (@PathVariable("id") Integer id, HttpServletRequest request)   {
+        offerService.removeOffer(id, request);
+        return "redirect:/myofferslist";
+    }
+
+    @GetMapping (path = "/unsub/{id}")
+    public String unsubscribe (@PathVariable("id") Integer id, HttpServletRequest request)   {
+        userService.unsubscribe(id, request);
+        return "redirect:/vendors";
     }
 
 

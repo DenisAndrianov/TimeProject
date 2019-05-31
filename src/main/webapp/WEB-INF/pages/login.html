@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="font-awesome.min.css">
+    <link rel="stylesheet" href="owl.carousel.css">
+    <link rel="stylesheet" href="owl.theme.default.min.css">
 </head>
 <body>
-<form action="#" th:action="@{/login}" th:object="${user}" method="post">
+
+<br>
+<br>
+<br>
+<br>
+<div align="center">
+<form action="#" th:action="@{/login}" th:object="${user}" method="post" >
     <fieldset>
         <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Incorrect login</p>
         Login:
@@ -21,5 +31,6 @@
 
     </fieldset>
 </form>
+</div>
 </body>
 </html>

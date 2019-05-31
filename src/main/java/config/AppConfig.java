@@ -14,6 +14,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.view.JstlView;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+import services.repositories.OfferRepo;
 
 import javax.sql.DataSource;
 import java.net.InetAddress;
@@ -30,6 +33,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebMvc
+@EnableScheduling
 @EnableAutoConfiguration
 @EnableJpaRepositories("services.repositories")
 @ComponentScan(basePackages = "controllers")
@@ -41,6 +45,9 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Autowired
     ApplicationContext applicationContext;
+
+    @Autowired
+    private OfferRepo offerRepo;
 
     @Bean
     public SpringResourceTemplateResolver templateResolver(){

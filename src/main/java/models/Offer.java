@@ -86,7 +86,7 @@ public class Offer {
     }
 
     public Date getTimeStart() {
-        return timeStart;
+        return new Date(timeStart.getTime());
     }
 
     public void setTimeStart(Date timeStart) {

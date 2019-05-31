@@ -11,6 +11,7 @@ import services.repositories.UserRepo;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
 @Service
@@ -81,8 +82,15 @@ public class UserService {
 
     public HashSet<User> getVendors (HttpServletRequest request)  {
         HashSet<User> vendors = new HashSet<>();
-        System.out.println(getUserByToken(request.getCookies()[0].getValue()).getVendors());
         vendors.addAll(getUserByToken(request.getCookies()[0].getValue()).getVendors());
         return vendors;
+    }
+
+    public void unsubscribe (Integer id, HttpServletRequest request)    {
+        User user = getUserByToken(request.getCookies()[0].getValue());
+        System.out.println(id);
+        System.out.println(userRepo.readById(id));
+        user.removeVendor(userRepo.readById(id));
+        userRepo.save(user);
     }
 }
